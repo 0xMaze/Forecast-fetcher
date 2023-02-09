@@ -9,10 +9,10 @@ from sqlalchemy.orm import Session
 
 from datetime import datetime
 
-import schemas
-import crud
+from app import schemas
+from app import crud
 
-from api import deps
+from app.api import deps
 
 router = APIRouter()
 
@@ -39,6 +39,7 @@ async def create_city(
     # convert city info to CityCreate object
     item_in = schemas.CityCreate(
         name=city_info["list"][0]["name"],
+        web_id=city_info["list"][0]["id"],
     )
 
     # create a new city
@@ -66,8 +67,8 @@ async def get_city_stats(
     *,
     db: Session = Depends(deps.get_db),
     city: str,
-    start_date: datetime = Body(),
-    end_date: datetime = Body(),
+    start_date: datetime,
+    end_date: datetime,
 ) -> List[dict]:
     """
     Get weather stats for a city in a given period

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api.routes import weather
+from app.api.routes import weather
 
 router = APIRouter()
 

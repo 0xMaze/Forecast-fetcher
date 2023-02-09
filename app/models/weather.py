@@ -5,7 +5,7 @@ import datetime
 from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime
 
 
-from db.base_class import Base
+from app.db.base_class import Base
 
 if TYPE_CHECKING:
     from .city import City

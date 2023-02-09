@@ -4,15 +4,25 @@ from sqlalchemy.orm import Session
 
 from datetime import datetime
 
-from crud.base import CRUDBase
-from models import City, Weather
+from app.crud.base import CRUDBase
+from app.models import City, Weather
 
-from schemas.city import CityCreate
+from app.schemas.city import CityCreate
 
 # get_latest_weather_cities Возвращает список существующих городов с последней записанной температурой (т.е. если температура не равна None). Если указать опциональный параметр ?search={search}, то выходной список городов фильтруется по частичному совпадению названия города со значением параметра.
 
 
 class CRUDCity(CRUDBase[City, CityCreate]):
+    def create(self, db: Session, *, obj_in: CityCreate) -> City:
+        """
+        Create a new city if it doesn't already exist
+        """
+        db_obj = self.get_by_name(db, name=obj_in.name)
+        if db_obj:
+            return db_obj
+
+        return super().create(db, obj_in=obj_in)
+
     def get_latest_weather_cities(
         self, db: Session, *, search: str = None
     ) -> List[City]:

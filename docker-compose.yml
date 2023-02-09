@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  app:
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+    volumes:
+      - .:/app
+    environment:
+      - POSTGRES_URL=postgresql://zack:384746@postgres:5432/weather
+    ports:
+      - "8002:8000"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:14.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=zack
+      - POSTGRES_PASSWORD=384746
+      - POSTGRES_DB=weather
+    ports:
+      - "5444:5432"
+
+  # queue:
+  #   image: rabbitmq:3
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=zack
+  #     - RABBITMQ_DEFAULT_PASS=384746
+  #   ports:
+  #     - "5672:5672"
+
+  scraper:
+    build:
+      context: .
+      dockerfile: scraper.dockerfile
+    volumes:
+      - .:/app
+    command: scrapy crawl weather_spider
+    environment:
+      - CELERY_POSTGRES_URL=db+postgresql://zack:384746@postgres:5432/weather
+      - MESSAGE_BROCKER_URL=amqp://zack:384746@queue:5672
+      - POSTGRES_URL=postgresql://zack:384746@postgres:5432/weather
+    depends_on:
+      - postgres
+      # - queue
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+
+volumes:
+  postgres_data:

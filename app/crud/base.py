@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from db.base_class import Base
+from app.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -25,6 +25,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
 
     def get(self, db: Session, id: Any) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
+
+    def get_by_name(self, db: Session, *, name: str) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.name == name).first()
 
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100

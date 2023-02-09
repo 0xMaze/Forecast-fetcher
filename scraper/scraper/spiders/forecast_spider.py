@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
-from api.deps import get_db
-from app import crud
+from app.app.api.deps import get_db
+from app.app import crud
 
 
 class ForecastSpider(scrapy.Spider):
