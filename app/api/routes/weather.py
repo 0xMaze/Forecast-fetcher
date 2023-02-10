@@ -1,10 +1,7 @@
-# 1. POST /weather/{city}, где {city} - название города на английском языке. Запись в БД города (перед записью необходимо проверить существование города на openweathermap.org).
-# 2. GET /last_weather. Возвращает список существующих городов с последней записанной температурой. Если указать опциональный параметр ?search={search}, то выходной список городов фильтруется по частичному совпадению названия города со значением параметра.
-# 3. GET /city_stats. Получает по заданному городу (передается query параметром) все данные за выбранный период, а также их средние значения за этот период.
 from typing import List
 
 import requests
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from datetime import datetime
@@ -67,8 +64,8 @@ async def get_city_stats(
     *,
     db: Session = Depends(deps.get_db),
     city: str,
-    start_date: datetime,
-    end_date: datetime,
+    start_date: datetime = Query(None, format="iso"),
+    end_date: datetime = Query(None, format="iso"),
 ) -> List[dict]:
     """
     Get weather stats for a city in a given period

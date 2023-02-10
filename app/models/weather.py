@@ -17,5 +17,5 @@ class Weather(Base):
     pressure = Column(Float, nullable=False)
     wind_speed = Column(Float, nullable=False)
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
-    city_id = Column(Integer, ForeignKey("city.id"), nullable=False)
+    city_id = Column(Integer, ForeignKey("city.web_id"), nullable=False)
     city = relationship("City", back_populates="weather")

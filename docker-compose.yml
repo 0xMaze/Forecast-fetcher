@@ -39,7 +39,7 @@ services:
       dockerfile: scraper.dockerfile
     volumes:
       - .:/app
-    command: scrapy crawl weather_spider
+    command: bash /run_scraper.sh
     environment:
       - CELERY_POSTGRES_URL=db+postgresql://zack:384746@postgres:5432/weather
       - MESSAGE_BROCKER_URL=amqp://zack:384746@queue:5672

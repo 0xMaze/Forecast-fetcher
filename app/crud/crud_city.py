@@ -9,8 +9,6 @@ from app.models import City, Weather
 
 from app.schemas.city import CityCreate
 
-# get_latest_weather_cities Возвращает список существующих городов с последней записанной температурой (т.е. если температура не равна None). Если указать опциональный параметр ?search={search}, то выходной список городов фильтруется по частичному совпадению названия города со значением параметра.
-
 
 class CRUDCity(CRUDBase[City, CityCreate]):
     def create(self, db: Session, *, obj_in: CityCreate) -> City:
@@ -53,8 +51,8 @@ class CRUDCity(CRUDBase[City, CityCreate]):
             db.query(Weather)
             .join(City)
             .filter(City.name == city)
-            .filter(Weather.date >= start_date)
-            .filter(Weather.date <= end_date)
+            .filter(Weather.time_stamp >= start_date)
+            .filter(Weather.time_stamp <= end_date)
         )
 
         return query.all()

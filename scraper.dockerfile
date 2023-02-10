@@ -12,6 +12,13 @@ RUN pip install -r requirements.txt
 
 RUN apt-get -y install cron
 
-COPY . .
+COPY ./app /app
+WORKDIR /app
 
-WORKDIR /app/scraper
+ENV PYTHONPATH=/app
+
+COPY ./app/run_scraper.sh /run_scraper.sh
+
+RUN chmod +x /run_scraper.sh
+
+WORKDIR /app

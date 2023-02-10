@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class City(Base):
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String(50), nullable=False, unique=True)
-    web_id = Column(Integer, nullable=False, unique=True)
+    web_id = Column(Integer, nullable=False, unique=True, primary_key=True)
     weather = relationship("Weather", back_populates="city")
