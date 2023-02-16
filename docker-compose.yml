@@ -25,14 +25,6 @@ services:
     ports:
       - "5444:5432"
 
-  # queue:
-  #   image: rabbitmq:3
-  #   environment:
-  #     - RABBITMQ_DEFAULT_USER=zack
-  #     - RABBITMQ_DEFAULT_PASS=384746
-  #   ports:
-  #     - "5672:5672"
-
   scraper:
     build:
       context: .
