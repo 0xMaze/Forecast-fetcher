@@ -3,7 +3,7 @@
 To run the application do the following:
 
 - `git clone https://github.com/0xMaze/Forecast-fetcher.git`
-- cd into the project directory, e.g: `cd /Forecast-fetcher`
+- cd into the project directory, e.g: `cd Forecast-fetcher/`
 - `docker-compose up -d`
 - `docker-compose run app alembic upgrade head`
 
