@@ -17,4 +17,4 @@ To stop the application type: `docker-compose stop`
 - `GET /last_weather` endpoint gets a list of cities with the last recorded temperature. When the `search` query parameter is specified, then the output list of cities is filtered by a partial match of the city name with the value of the parameter.
 - `GET /city_stats` endpoint gets all the data for a given city (passed by the query parameter) for the selected period (the timestamp should be specified in ISO 8601 format, e.g: 2023-02-16T16:35:34.551Z. Visit [this](https://www.timestamp-converter.com/) website for easier conversion).
 
-Weather data is fetched every minute for each city using the Scrapy framework.
+Weather data is fetched every minute for each city using the Scrapy framework. In order to use the Scrapy parses at least one city should be added to the database, otherwise no data will be parsed.
