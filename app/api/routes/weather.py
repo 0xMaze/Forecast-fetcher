@@ -64,8 +64,8 @@ async def get_city_stats(
     *,
     db: Session = Depends(deps.get_db),
     city: str,
-    start_date: datetime = Query(None, format="iso"),
-    end_date: datetime = Query(None, format="iso"),
+    start_date: datetime,
+    end_date: datetime,
 ) -> List[dict]:
     """
     Get weather stats for a city in a given period
